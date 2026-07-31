@@ -1,0 +1,1501 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Código de Vida — Guía Docente · ORT Uruguay</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;700;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --coral:    #E85D2F;
+    --coral-lt: #F7EDE8;
+    --dna-teal: #1A7A6E;
+    --dna-lt:   #E6F4F2;
+    --ink:      #1C1C1C;
+    --muted:    #6B6B6B;
+    --rule:     #E0DDD8;
+    --page:     #FAFAF8;
+    --white:    #FFFFFF;
+    --bio:      #1A7A6E;
+    --info:     #2D4F8A;
+    --bio-lt:   #E6F4F2;
+    --info-lt:  #EDF1F9;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background: var(--page);
+    color: var(--ink);
+    font-size: 15px;
+    line-height: 1.65;
+  }
+
+  /* ── PRINT ─────────────────────────────────── */
+  @media print {
+    .no-print { display: none !important; }
+    .nav-sidebar { display: none !important; }
+    body { background: white; font-size: 12px; }
+    .main-content { margin: 0; max-width: 100%; }
+    .section-card { break-inside: avoid; page-break-inside: avoid; box-shadow: none; border: 1px solid var(--rule); }
+    .activity { break-inside: avoid; }
+    .pill-badge { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+    .hero { background: var(--coral) !important; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+    details { display: block; }
+    details > * { display: block; }
+    .accordion-body { display: block !important; max-height: none !important; }
+  }
+
+  /* ── LAYOUT ─────────────────────────────────── */
+  .layout {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    min-height: 100vh;
+  }
+
+  /* ── SIDEBAR ─────────────────────────────────── */
+  .nav-sidebar {
+    background: var(--white);
+    border-right: 1px solid var(--rule);
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 24px 0 32px;
+    display: flex;
+    flex-direction: column;
+  }
+  .nav-brand {
+    padding: 0 20px 20px;
+    border-bottom: 1px solid var(--rule);
+    margin-bottom: 16px;
+  }
+  .nav-brand .brand-tag {
+    font-size: 10px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 600;
+    display: block;
+    margin-bottom: 4px;
+  }
+  .nav-brand .brand-title {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--coral);
+    line-height: 1.2;
+  }
+  .nav-links { flex: 1; padding: 0 12px; }
+  .nav-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 10px;
+    border-radius: 8px;
+    text-decoration: none;
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: 500;
+    transition: background .15s, color .15s;
+    cursor: pointer;
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+  }
+  .nav-link:hover { background: var(--coral-lt); color: var(--coral); }
+  .nav-link.active { background: var(--coral-lt); color: var(--coral); font-weight: 600; }
+  .nav-link .nav-num {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: var(--rule);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 700; flex-shrink: 0;
+    transition: background .15s, color .15s;
+  }
+  .nav-link.active .nav-num { background: var(--coral); color: white; }
+  .nav-print {
+    padding: 12px 20px 0;
+    border-top: 1px solid var(--rule);
+    margin-top: 12px;
+  }
+  .btn-print {
+    width: 100%;
+    padding: 9px 12px;
+    background: var(--ink);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    transition: background .15s;
+    font-family: 'Inter', sans-serif;
+  }
+  .btn-print:hover { background: #333; }
+
+  /* ── MAIN CONTENT ─────────────────────────────── */
+  .main-content {
+    max-width: 820px;
+    padding: 0 40px 80px;
+  }
+
+  /* ── HERO ─────────────────────────────────────── */
+  .hero {
+    background: var(--coral);
+    color: white;
+    padding: 48px 40px 40px;
+    margin: 0 -40px 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; right: -60px; top: -60px;
+    width: 300px; height: 300px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.07);
+    pointer-events: none;
+  }
+  .hero-eyebrow {
+    font-size: 11px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    font-weight: 700;
+    opacity: .75;
+    margin-bottom: 12px;
+  }
+  .hero-title {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 42px;
+    font-weight: 900;
+    line-height: 1.0;
+    margin-bottom: 8px;
+  }
+  .hero-subtitle {
+    font-size: 18px;
+    opacity: .85;
+    font-weight: 400;
+    margin-bottom: 28px;
+  }
+  .hero-meta {
+    display: flex; flex-wrap: wrap; gap: 10px;
+  }
+  .hero-chip {
+    background: rgba(255,255,255,.2);
+    border-radius: 20px;
+    padding: 5px 14px;
+    font-size: 12px;
+    font-weight: 600;
+    backdrop-filter: blur(4px);
+  }
+  .cuaderno-badge {
+    position: absolute;
+    top: 28px; right: 40px;
+    background: white;
+    color: var(--coral);
+    font-family: 'Fraunces', serif;
+    font-size: 36px;
+    font-weight: 900;
+    width: 64px; height: 64px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 8px 8px 0 8px;
+    clip-path: polygon(0 0, 100% 0, 100% 80%, 90% 100%, 0 100%);
+    box-shadow: 0 4px 16px rgba(0,0,0,.15);
+  }
+
+  /* ── SECTION CARD ─────────────────────────────── */
+  .section-card {
+    background: var(--white);
+    border-radius: 12px;
+    border: 1px solid var(--rule);
+    margin-bottom: 24px;
+    overflow: hidden;
+    box-shadow: 0 1px 4px rgba(0,0,0,.04);
+  }
+  .section-header {
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--rule);
+    display: flex; align-items: center; gap: 14px;
+  }
+  .section-icon {
+    width: 36px; height: 36px;
+    border-radius: 10px;
+    background: var(--coral-lt);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 17px; flex-shrink: 0;
+  }
+  .section-title {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--ink);
+  }
+  .section-body { padding: 24px; }
+
+  /* ── GENERAL TYPOGRAPHY ───────────────────────── */
+  p { margin-bottom: 12px; }
+  p:last-child { margin-bottom: 0; }
+  h3 {
+    font-family: 'Fraunces', serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--ink);
+    margin: 20px 0 8px;
+  }
+  h3:first-child { margin-top: 0; }
+
+  /* ── INFO BOX ─────────────────────────────────── */
+  .info-box {
+    border-left: 3px solid var(--coral);
+    background: var(--coral-lt);
+    padding: 14px 18px;
+    border-radius: 0 8px 8px 0;
+    margin-bottom: 20px;
+  }
+  .info-box p { margin-bottom: 6px; color: #5a2400; font-size: 14px; }
+
+  /* ── PILL BADGE ───────────────────────────────── */
+  .pill-badge {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .05em;
+    text-transform: uppercase;
+  }
+  .pill-coral { background: var(--coral); color: white; }
+  .pill-teal  { background: var(--dna-teal); color: white; }
+  .pill-group { background: var(--coral-lt); color: var(--coral); }
+  .pill-ind   { background: var(--dna-lt); color: var(--dna-teal); }
+
+  /* ── FLIP CARDS ───────────────────────────────── */
+  .dual-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+  .dual-col:last-child { margin-bottom: 0; }
+
+  .flip-card {
+    perspective: 900px;
+    cursor: pointer;
+  }
+  .flip-card-inner {
+    position: relative;
+    width: 100%;
+    transition: transform .55s cubic-bezier(.4,0,.2,1);
+    transform-style: preserve-3d;
+  }
+  .flip-card.flipped .flip-card-inner {
+    transform: rotateY(180deg);
+  }
+  /* Ghost sizer: invisible copy of back content that gives the card its height */
+  .flip-sizer {
+    visibility: hidden;
+    pointer-events: none;
+    padding: 16px 18px;
+    min-height: 160px;
+  }
+  .flip-sizer ul { padding-left: 18px; }
+  .flip-sizer li { font-size: 13px; margin-bottom: 5px; }
+  .flip-sizer .col-label { font-size: 11px; margin-bottom: 10px; display: block; }
+
+  .flip-front,
+  .flip-back {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    border-radius: 10px;
+    padding: 16px 18px;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  /* FRONT */
+  .flip-front {
+    color: white;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    gap: 6px;
+  }
+  .flip-front-bio  { background: var(--bio); }
+  .flip-front-info { background: var(--info); }
+  .flip-front-emoji { font-size: 36px; line-height: 1; margin-bottom: 4px; }
+  .flip-front-title {
+    font-family: 'Fraunces', serif;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+  .flip-hint {
+    font-size: 11px;
+    opacity: .65;
+    margin-top: 8px;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+  }
+
+  /* BACK */
+  .flip-back {
+    transform: rotateY(180deg);
+    justify-content: flex-start;
+  }
+  .flip-back-bio  { background: var(--bio-lt); border: 1px solid #b2dbd6; }
+  .flip-back-info { background: var(--info-lt); border: 1px solid #b8c9e8; }
+
+  .col-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .10em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    flex-shrink: 0;
+  }
+  .flip-back-bio  .col-label { color: var(--bio); }
+  .flip-back-info .col-label { color: var(--info); }
+  .flip-back ul { padding-left: 18px; }
+  .flip-back li { font-size: 13px; margin-bottom: 5px; }
+  .flip-back-hint {
+    font-size: 10px;
+    opacity: .5;
+    margin-top: 10px;
+    text-align: right;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    flex-shrink: 0;
+  }
+
+  /* print */
+  @media print {
+    .flip-card { perspective: none; }
+    .flip-card-inner { transform: none !important; position: static; }
+    .flip-sizer { display: none; }
+    .flip-front { display: none !important; }
+    .flip-back {
+      position: static;
+      transform: none !important;
+      backface-visibility: visible;
+      -webkit-backface-visibility: visible;
+    }
+  }
+
+  /* ── ACTIVITY BLOCK ───────────────────────────── */
+  .activity {
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+    margin-bottom: 16px;
+    overflow: hidden;
+  }
+  .activity-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 18px;
+    background: var(--page);
+    border-bottom: 1px solid var(--rule);
+    cursor: pointer;
+    user-select: none;
+    gap: 12px;
+  }
+  .activity-header:hover { background: var(--coral-lt); }
+  .activity-left { display: flex; align-items: center; gap: 12px; }
+  .act-num {
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    background: var(--coral);
+    color: white;
+    font-family: 'Fraunces', serif;
+    font-size: 14px;
+    font-weight: 900;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .act-title {
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--ink);
+  }
+  .act-chevron {
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    background: var(--rule);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px;
+    transition: transform .25s, background .15s;
+    flex-shrink: 0;
+  }
+  .activity.open .act-chevron { transform: rotate(180deg); background: var(--coral-lt); }
+  .accordion-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height .35s ease;
+  }
+  .activity.open .accordion-body { max-height: 2000px; }
+  .accordion-inner { padding: 18px 20px; }
+
+  /* ── OBJETIVO BOX ─────────────────────────────── */
+  .objetivo-box {
+    background: var(--coral-lt);
+    border-radius: 8px;
+    padding: 14px 16px;
+    margin-top: 14px;
+    font-size: 13.5px;
+  }
+  .objetivo-box .obj-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--coral);
+    margin-bottom: 8px;
+  }
+  .objetivo-box li { margin-bottom: 5px; padding-left: 2px; list-style: none; }
+  .objetivo-box li::before { content: '→ '; color: var(--coral); font-weight: 700; }
+
+  /* ── TABLE ────────────────────────────────────── */
+  .styled-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    margin-bottom: 16px;
+  }
+  .styled-table th {
+    background: var(--ink);
+    color: white;
+    padding: 9px 12px;
+    text-align: left;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+  }
+  .styled-table th:first-child { border-radius: 6px 0 0 0; }
+  .styled-table th:last-child  { border-radius: 0 6px 0 0; }
+  .styled-table td {
+    padding: 9px 12px;
+    border-bottom: 1px solid var(--rule);
+    vertical-align: top;
+  }
+  .styled-table tr:last-child td { border-bottom: none; }
+  .styled-table tr:nth-child(even) td { background: var(--page); }
+  .td-mod {
+    font-weight: 700;
+    color: var(--coral);
+    font-size: 12px;
+    white-space: nowrap;
+  }
+
+  /* ── RUBRIC TABLE ─────────────────────────────── */
+  .rubric-table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+  .rubric-table th {
+    padding: 10px 12px;
+    background: var(--ink); color: white;
+    text-align: left; font-size: 11px; font-weight: 700;
+    letter-spacing: .06em; text-transform: uppercase;
+  }
+  .rubric-table th:nth-child(2) { background: var(--dna-teal); }
+  .rubric-table th:nth-child(3) { background: #5A7DB0; }
+  .rubric-table th:nth-child(4) { background: #888; }
+  .rubric-table td { padding: 10px 12px; border: 1px solid var(--rule); vertical-align: top; }
+  .rubric-table tr:nth-child(odd) td:first-child { background: var(--page); font-weight: 600; }
+
+  /* ── CLASE TIMELINE ───────────────────────────── */
+  .clase-timeline {
+    display: flex; gap: 12px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+  .clase-pill {
+    flex: 1; min-width: 180px;
+    border-radius: 10px;
+    padding: 14px 16px;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: border-color .2s, transform .1s;
+    background: var(--page);
+    border-color: var(--rule);
+  }
+  .clase-pill:hover { border-color: var(--coral); transform: translateY(-1px); }
+  .clase-pill.active { border-color: var(--coral); background: var(--coral-lt); }
+  .cp-num { font-family: 'Fraunces', serif; font-size: 11px; font-weight: 700; color: var(--muted); letter-spacing: .1em; text-transform: uppercase; }
+  .cp-title { font-weight: 700; font-size: 14px; margin-top: 4px; color: var(--ink); }
+  .cp-sub   { font-size: 12px; color: var(--muted); margin-top: 3px; }
+
+  .clase-panel { display: none; }
+  .clase-panel.active { display: block; }
+
+  /* ── RESULTADO BOX ────────────────────────────── */
+  .resultado-box {
+    background: var(--dna-lt);
+    border: 1px solid #b2dbd6;
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin-top: 16px;
+    font-size: 13.5px;
+  }
+  .resultado-box .r-label {
+    font-size: 10px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--dna-teal); margin-bottom: 6px;
+  }
+
+  /* ── DEBATE BOX ───────────────────────────────── */
+  .debate-box {
+    background: #FFF8E7;
+    border: 1px solid #F0D580;
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin-top: 16px;
+    font-size: 13.5px;
+  }
+  .debate-box .d-label {
+    font-size: 10px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+    color: #8A6500; margin-bottom: 8px;
+  }
+  .debate-box li { list-style: none; padding-left: 0; margin-bottom: 5px; }
+  .debate-box li::before { content: '💬  '; }
+
+  /* ── CODE BLOCK ───────────────────────────────── */
+  .code-block {
+    background: #1E1E2E;
+    border-radius: 8px;
+    padding: 16px 18px;
+    font-family: 'Courier New', monospace;
+    font-size: 12.5px;
+    color: #CDD6F4;
+    overflow-x: auto;
+    margin: 12px 0;
+    line-height: 1.7;
+  }
+  .code-block .cm { color: #6C7086; }
+  .code-block .ck { color: #CBA6F7; }
+  .code-block .cf { color: #89B4FA; }
+  .code-block .cs { color: #A6E3A1; }
+
+  /* ── RESOURCES GRID ───────────────────────────── */
+  .res-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px; }
+  .res-card {
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    padding: 14px 16px;
+    background: var(--white);
+  }
+  .res-card a { color: var(--coral); text-decoration: none; font-weight: 600; font-size: 13px; }
+  .res-card a:hover { text-decoration: underline; }
+  .res-card p { font-size: 12px; color: var(--muted); margin-top: 4px; margin-bottom: 0; }
+
+  /* ── FOOTER QUOTE ─────────────────────────────── */
+  .quote-footer {
+    margin-top: 40px;
+    padding: 28px 32px;
+    background: var(--ink);
+    border-radius: 12px;
+    color: white;
+    text-align: center;
+  }
+  .quote-footer blockquote {
+    font-family: 'Fraunces', serif;
+    font-size: 18px;
+    font-weight: 400;
+    font-style: italic;
+    line-height: 1.5;
+    margin-bottom: 12px;
+    opacity: .92;
+  }
+  .quote-footer cite { font-size: 12px; opacity: .55; font-style: normal; letter-spacing: .08em; text-transform: uppercase; }
+
+  /* ── PROGRESS BAR ─────────────────────────────── */
+  .progress-bar-wrap {
+    height: 3px;
+    background: var(--rule);
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 1000;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    background: var(--coral);
+    width: 0%;
+    transition: width .1s;
+  }
+
+  /* ── RESPONSIVE ───────────────────────────────── */
+  @media (max-width: 768px) {
+    .layout { grid-template-columns: 1fr; }
+    .nav-sidebar { position: relative; height: auto; flex-direction: row; flex-wrap: wrap; padding: 12px; }
+    .main-content { padding: 0 20px 60px; }
+    .hero { padding: 36px 20px 28px; margin: 0 -20px 28px; }
+    .hero-title { font-size: 30px; }
+    .dual-col { grid-template-columns: 1fr; }
+    .res-grid  { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="progress-bar-wrap no-print">
+  <div class="progress-bar-fill" id="pgBar"></div>
+</div>
+
+<div class="layout">
+
+  <!-- ── SIDEBAR ──────────────────────────────── -->
+  <nav class="nav-sidebar no-print">
+    <div class="nav-brand">
+      <span class="brand-tag">ORT Uruguay · EMS</span>
+      <span class="brand-title">Código de Vida</span>
+    </div>
+    <div class="nav-links">
+      <button class="nav-link active" onclick="scrollTo('s0')">
+        <span class="nav-num">·</span> Presentación
+      </button>
+      <button class="nav-link" onclick="scrollTo('s1')">
+        <span class="nav-num">1</span> Fundamentación
+      </button>
+      <button class="nav-link" onclick="scrollTo('s2')">
+        <span class="nav-num">2</span> Objetivos
+      </button>
+      <button class="nav-link" onclick="scrollTo('s3')">
+        <span class="nav-num">3</span> Marco teórico
+      </button>
+      <button class="nav-link" onclick="scrollTo('s4')">
+        <span class="nav-num">4</span> Clases
+      </button>
+      <button class="nav-link" onclick="scrollTo('s5')">
+        <span class="nav-num">5</span> Evaluación
+      </button>
+      <button class="nav-link" onclick="scrollTo('s6')">
+        <span class="nav-num">6</span> Orientaciones
+      </button>
+      <button class="nav-link" onclick="scrollTo('s7')">
+        <span class="nav-num">7</span> Recursos
+      </button>
+    </div>
+    <div class="nav-print">
+      <button class="btn-print" onclick="window.print()">
+        ⬇ Exportar PDF
+      </button>
+    </div>
+  </nav>
+
+  <!-- ── MAIN ─────────────────────────────────── -->
+  <main class="main-content">
+
+    <!-- HERO -->
+    <div class="hero" id="s0">
+      <div class="cuaderno-badge">2</div>
+      <div class="hero-eyebrow">Guía Docente · Taller Interdisciplinar</div>
+      <div class="hero-title">Código de Vida</div>
+      <div class="hero-subtitle">Programando la Biología</div>
+      <div class="hero-meta">
+        <span class="hero-chip">🧬 Biología</span>
+        <span class="hero-chip">💻 Informática</span>
+        <span class="hero-chip">1° EMS</span>
+        <span class="hero-chip">3 clases × 2 h</span>
+        <span class="hero-chip">ABP</span>
+      </div>
+    </div>
+
+    <!-- PORTADA INFO -->
+    <div class="section-card" id="s_meta">
+      <div class="section-body">
+        <table class="styled-table" style="margin-bottom:0">
+          <thead><tr><th>Aspecto</th><th>Detalle</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Nivel educativo</strong></td><td>1° de Educación Media Superior (EMS)</td></tr>
+            <tr><td><strong>Disciplinas</strong></td><td>Biología · Ciencias de la Computación</td></tr>
+            <tr><td><strong>Duración total</strong></td><td>3 clases × 2 horas (módulos de 40 min c/u)</td></tr>
+            <tr><td><strong>Enfoque pedagógico</strong></td><td>Aprendizaje Basado en Proyectos (ABP) · Metodología de taller</td></tr>
+            <tr><td><strong>Eje Biología</strong></td><td>Identidad Biológica</td></tr>
+            <tr><td><strong>Eje Informática</strong></td><td>Algoritmia y Programación</td></tr>
+            <tr><td><strong>Lenguaje sugerido</strong></td><td>Python 3 (adaptable a pseudocódigo o Scratch)</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 1. FUNDAMENTACIÓN -->
+    <div class="section-card" id="s1">
+      <div class="section-header">
+        <div class="section-icon">🧩</div>
+        <div class="section-title">1. Fundamentación</div>
+      </div>
+      <div class="section-body">
+        <p>La bioinformática representa uno de los campos de mayor crecimiento en la ciencia contemporánea, donde la biología molecular y las ciencias de la computación convergen para responder preguntas fundamentales sobre la vida. Este taller propone abordar esa confluencia desde un enfoque integrado, construyendo competencias científicas, computacionales y éticas de manera simultánea.</p>
+        <p>El diseño sigue el <strong>patrón en red</strong> que proponen los programas de EMS: los contenidos de ambas disciplinas no se yuxtaponen, sino que se articulan en torno a un problema auténtico, el análisis computacional de secuencias de ADN, que otorga sentido y contexto a cada aprendizaje.</p>
+        <div class="info-box">
+          <p>El estudiantado transita progresivamente desde conceptos básicos hasta la construcción de un programa funcional que simula procesos celulares reales. Este taller se enmarca en la tradición pedagógica de la Universidad ORT Uruguay, que integra la formación científica y tecnológica con una mirada ética y humanista.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. OBJETIVOS -->
+    <div class="section-card" id="s2">
+      <div class="section-header">
+        <div class="section-icon">🎯</div>
+        <div class="section-title">2. Objetivos</div>
+      </div>
+      <div class="section-body">
+        <h3>Objetivo General</h3>
+        <p>Introducir la bioinformática mediante el análisis algorítmico de secuencias de ADN, para comprender la síntesis de proteínas y el impacto de las mutaciones, desarrollando competencias interdisciplinares en un entorno colaborativo.</p>
+
+        <h3>Objetivos Específicos</h3>
+        <div class="dual-col">
+          <div class="flip-card" onclick="this.classList.toggle('flipped')">
+            <div class="flip-card-inner">
+              <!-- sizer mirrors back content to set card height -->
+              <div class="flip-sizer" aria-hidden="true">
+                <span class="col-label">🌿 Objetivos — Biología</span>
+                <ul>
+                  <li>Describir la estructura del ADN y la complementariedad de bases nitrogenadas.</li>
+                  <li>Explicar transcripción (ADN→ARN) y traducción (ARN→proteína).</li>
+                  <li>Identificar tipos de mutaciones y sus efectos.</li>
+                  <li>Reflexionar sobre las implicancias éticas del manejo de datos genéticos.</li>
+                </ul>
+              </div>
+              <div class="flip-front flip-front-bio">
+                <div class="flip-front-emoji">🌿</div>
+                <div class="flip-front-title">Biología</div>
+                <div class="flip-hint">Presioná para ver los objetivos</div>
+              </div>
+              <div class="flip-back flip-back-bio">
+                <div class="col-label">🌿 Objetivos — Biología</div>
+                <ul>
+                  <li>Describir la estructura del ADN y la complementariedad de bases nitrogenadas.</li>
+                  <li>Explicar transcripción (ADN→ARN) y traducción (ARN→proteína).</li>
+                  <li>Identificar tipos de mutaciones y sus efectos.</li>
+                  <li>Reflexionar sobre las implicancias éticas del manejo de datos genéticos.</li>
+                </ul>
+                <div class="flip-back-hint">↩ Volver</div>
+              </div>
+            </div>
+          </div>
+          <div class="flip-card" onclick="this.classList.toggle('flipped')">
+            <div class="flip-card-inner">
+              <div class="flip-sizer" aria-hidden="true">
+                <span class="col-label">💻 Objetivos — Informática</span>
+                <ul>
+                  <li>Representar datos biológicos como estructuras de datos (strings, diccionarios).</li>
+                  <li>Implementar algoritmos con estructuras de selección y repetición.</li>
+                  <li>Modularizar código en funciones para resolver problemas complejos.</li>
+                  <li>Documentar y comunicar soluciones computacionales con claridad.</li>
+                </ul>
+              </div>
+              <div class="flip-front flip-front-info">
+                <div class="flip-front-emoji">💻</div>
+                <div class="flip-front-title">Informática</div>
+                <div class="flip-hint">Presioná para ver los objetivos</div>
+              </div>
+              <div class="flip-back flip-back-info">
+                <div class="col-label">💻 Objetivos — Informática</div>
+                <ul>
+                  <li>Representar datos biológicos como estructuras de datos (strings, diccionarios).</li>
+                  <li>Implementar algoritmos con estructuras de selección y repetición.</li>
+                  <li>Modularizar código en funciones para resolver problemas complejos.</li>
+                  <li>Documentar y comunicar soluciones computacionales con claridad.</li>
+                </ul>
+                <div class="flip-back-hint">↩ Volver</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. MARCO TEÓRICO -->
+    <div class="section-card" id="s3">
+      <div class="section-header">
+        <div class="section-icon">📚</div>
+        <div class="section-title">3. Marco Teórico y Conceptual</div>
+      </div>
+      <div class="section-body">
+        <div class="dual-col">
+          <div class="flip-card" onclick="this.classList.toggle('flipped')">
+            <div class="flip-card-inner">
+              <div class="flip-sizer" aria-hidden="true">
+                <span class="col-label">🌿 Conceptos Biología</span>
+                <ul>
+                  <li>Estructura del ADN (bases, azúcar, fosfato)</li>
+                  <li>Complementariedad de bases: A-T, C-G</li>
+                  <li>Dogma central: ADN → ARN → Proteína</li>
+                  <li>Transcripción y traducción</li>
+                  <li>Codón y tabla del código genético</li>
+                  <li>Mutaciones: sustitución, inserción, deleción</li>
+                  <li>Variabilidad genética y sus consecuencias</li>
+                </ul>
+              </div>
+              <div class="flip-front flip-front-bio">
+                <div class="flip-front-emoji">🌿</div>
+                <div class="flip-front-title">Conceptos Biología</div>
+                <div class="flip-hint">Presioná para ver los conceptos</div>
+              </div>
+              <div class="flip-back flip-back-bio">
+                <div class="col-label">🌿 Conceptos Biología</div>
+                <ul>
+                  <li>Estructura del ADN (bases, azúcar, fosfato)</li>
+                  <li>Complementariedad de bases: A-T, C-G</li>
+                  <li>Dogma central: ADN → ARN → Proteína</li>
+                  <li>Transcripción y traducción</li>
+                  <li>Codón y tabla del código genético</li>
+                  <li>Mutaciones: sustitución, inserción, deleción</li>
+                  <li>Variabilidad genética y sus consecuencias</li>
+                </ul>
+                <div class="flip-back-hint">↩ Volver</div>
+              </div>
+            </div>
+          </div>
+          <div class="flip-card" onclick="this.classList.toggle('flipped')">
+            <div class="flip-card-inner">
+              <div class="flip-sizer" aria-hidden="true">
+                <span class="col-label">💻 Conceptos Informática</span>
+                <ul>
+                  <li>String como tipo de dato</li>
+                  <li>Variables y asignación</li>
+                  <li>Estructuras de selección (if/elif/else)</li>
+                  <li>Estructuras de repetición (for/while)</li>
+                  <li>Diccionarios (clave-valor)</li>
+                  <li>Funciones y modularización</li>
+                  <li>Documentación y comentarios en código</li>
+                </ul>
+              </div>
+              <div class="flip-front flip-front-info">
+                <div class="flip-front-emoji">💻</div>
+                <div class="flip-front-title">Conceptos Informática</div>
+                <div class="flip-hint">Presioná para ver los conceptos</div>
+              </div>
+              <div class="flip-back flip-back-info">
+                <div class="col-label">💻 Conceptos Informática</div>
+                <ul>
+                  <li>String como tipo de dato</li>
+                  <li>Variables y asignación</li>
+                  <li>Estructuras de selección (if/elif/else)</li>
+                  <li>Estructuras de repetición (for/while)</li>
+                  <li>Diccionarios (clave-valor)</li>
+                  <li>Funciones y modularización</li>
+                  <li>Documentación y comentarios en código</li>
+                </ul>
+                <div class="flip-back-hint">↩ Volver</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <h3>Bibliografía Base</h3>
+        <div class="activity" style="cursor:default;">
+          <div class="activity-header" onclick="toggleAct(this)" style="cursor:pointer;">
+            <div class="activity-left">
+              <div class="act-num">📖</div>
+              <div class="act-title">Ver referencias bibliográficas</div>
+            </div>
+            <div class="act-chevron">▾</div>
+          </div>
+          <div class="accordion-body">
+            <div class="accordion-inner">
+              <table class="styled-table" style="margin-bottom:0">
+                <thead><tr><th>Referencia</th><th>Uso en el taller</th></tr></thead>
+                <tbody>
+                  <tr>
+                    <td><em>Anzalone, A. (2001). Biología. Editorial Ciencias Biológicas.</em></td>
+                    <td>Marco conceptual principal: genética molecular, ADN, transcripción, traducción. Base de contenidos de las Clases 1 y 3.</td>
+                  </tr>
+                  <tr>
+                    <td><em>Biraben, S. &amp; Arata, C. Biología. Editorial Santillana.</em></td>
+                    <td>Variabilidad genética, mutaciones y biotecnología. Base de contenidos de la Clase 2 y dimensión ética.</td>
+                  </tr>
+                  <tr>
+                    <td><em>Alberts, B. et al. (2022). Biología Molecular de la Célula. 7ª ed. Omega.</em></td>
+                    <td>Referencia avanzada para docentes. Profundización en síntesis proteica y código genético.</td>
+                  </tr>
+                  <tr>
+                    <td><em>Lesk, A. (2019). Introduction to Bioinformatics. 5th ed. Oxford.</em></td>
+                    <td>Referencia docente para el enfoque bioinformático del taller.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 4. CLASES -->
+    <div class="section-card" id="s4">
+      <div class="section-header">
+        <div class="section-icon">🗓</div>
+        <div class="section-title">4. Desarrollo de las Clases</div>
+      </div>
+      <div class="section-body">
+
+        <!-- Tabs -->
+        <div class="clase-timeline">
+          <div class="clase-pill active" onclick="showClase(0, this)">
+            <div class="cp-num">Clase 1</div>
+            <div class="cp-title">Del Nucleótido al Dato Digital</div>
+            <div class="cp-sub">Estructura del ADN · Strings en Python</div>
+          </div>
+          <div class="clase-pill" onclick="showClase(1, this)">
+            <div class="cp-num">Clase 2</div>
+            <div class="cp-title">Buscando Patrones y Mutaciones</div>
+            <div class="cp-sub">Mutaciones · Funciones · Debate ético</div>
+          </div>
+          <div class="clase-pill" onclick="showClase(2, this)">
+            <div class="cp-num">Clase 3</div>
+            <div class="cp-title">El Traductor de Proteínas</div>
+            <div class="cp-sub">Proyecto integrador · Presentaciones</div>
+          </div>
+        </div>
+
+        <!-- CLASE 1 -->
+        <div class="clase-panel active" id="clase0">
+          <div class="dual-col">
+            <div class="flip-card" onclick="this.classList.toggle('flipped')">
+              <div class="flip-card-inner">
+                <div class="flip-sizer" aria-hidden="true">
+                  <span class="col-label">🌿 Biología — Clase 1</span>
+                  <ul>
+                    <li>Estructura del ADN: doble hélice, bases nitrogenadas</li>
+                    <li>Importancia del orden de las bases: A, T, C, G</li>
+                    <li>El código genético como lenguaje universal de la vida</li>
+                    <li>Relación ADN → ARN → Proteína: introducción al dogma central</li>
+                  </ul>
+                </div>
+                <div class="flip-front flip-front-bio">
+                  <div class="flip-front-emoji">🌿</div>
+                  <div class="flip-front-title">Contenidos Biología</div>
+                  <div class="flip-hint">Presioná para ver los contenidos</div>
+                </div>
+                <div class="flip-back flip-back-bio">
+                  <div class="col-label">🌿 Biología — Clase 1</div>
+                  <ul>
+                    <li>Estructura del ADN: doble hélice, bases nitrogenadas</li>
+                    <li>Importancia del orden de las bases: A, T, C, G</li>
+                    <li>El código genético como lenguaje universal de la vida</li>
+                    <li>Relación ADN → ARN → Proteína: introducción al dogma central</li>
+                  </ul>
+                  <div class="flip-back-hint">↩ Volver</div>
+                </div>
+              </div>
+            </div>
+            <div class="flip-card" onclick="this.classList.toggle('flipped')">
+              <div class="flip-card-inner">
+                <div class="flip-sizer" aria-hidden="true">
+                  <span class="col-label">💻 Informática — Clase 1</span>
+                  <ul>
+                    <li>Introducción a la alfabetización computacional</li>
+                    <li>El ADN como cadena de caracteres (string)</li>
+                    <li>Variables y tipos de datos en Python</li>
+                    <li>Estructuras de selección (if/elif/else) para mapear bases</li>
+                  </ul>
+                </div>
+                <div class="flip-front flip-front-info">
+                  <div class="flip-front-emoji">💻</div>
+                  <div class="flip-front-title">Contenidos Informática</div>
+                  <div class="flip-hint">Presioná para ver los contenidos</div>
+                </div>
+                <div class="flip-back flip-back-info">
+                  <div class="col-label">💻 Informática — Clase 1</div>
+                  <ul>
+                    <li>Introducción a la alfabetización computacional</li>
+                    <li>El ADN como cadena de caracteres (string)</li>
+                    <li>Variables y tipos de datos en Python</li>
+                    <li>Estructuras de selección (if/elif/else) para mapear bases</li>
+                  </ul>
+                  <div class="flip-back-hint">↩ Volver</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <h3>Secuencia didáctica — 2 horas</h3>
+          <table class="styled-table">
+            <thead><tr><th>Mód.</th><th>Tiempo</th><th>Actividad</th><th>Rol docente</th></tr></thead>
+            <tbody>
+              <tr><td class="td-mod">M1</td><td>0–15 min</td><td>Motivación: pregunta disparadora <em>¿qué tienen en común un gen y un programa?</em></td><td>Ambos docentes presentan el hilo conductor.</td></tr>
+              <tr><td class="td-mod">M1</td><td>15–30 min</td><td>Exposición dialogada: estructura del ADN y complementariedad de bases. Analogía con strings en Python.</td><td>Bio explica; Info muestra la analogía en pizarra.</td></tr>
+              <tr><td class="td-mod">M1</td><td>30–40 min</td><td>Tarjetas con bases: los estudiantes construyen cadenas complementarias manualmente.</td><td>Bio facilita; Info registra la lógica en pizarra.</td></tr>
+              <tr><td class="td-mod">M2</td><td>0–15 min</td><td>Demo en vivo: variables y estructuras de selección en Python para representar una base y su complementaria.</td><td>Info lidera; Bio señala la correspondencia biológica.</td></tr>
+              <tr><td class="td-mod">M2</td><td>15–40 min</td><td>Práctica: los estudiantes crean un algoritmo que reciba una secuencia ADN y devuelva su cadena complementaria.</td><td>Trabajo en parejas. Ambos docentes circulan y apoyan.</td></tr>
+            </tbody>
+          </table>
+          <div class="resultado-box">
+            <div class="r-label">Resultado esperado</div>
+            <p>Cada estudiante (o pareja) entrega un algoritmo o código que dado el string <code>"ATCGTA"</code> devuelva <code>"TAGCAT"</code>. Se valora el razonamiento sobre el proceso más que la sintaxis perfecta.</p>
+          </div>
+          <div class="objetivo-box">
+            <div class="obj-label">Objetivos de aprendizaje</div>
+            <ul>
+              <li>Puedo explicar la complementariedad de bases del ADN.</li>
+              <li>Puedo representar una secuencia de ADN como un string en Python.</li>
+              <li>Puedo escribir un algoritmo de selección para mapear pares de bases.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- CLASE 2 -->
+        <div class="clase-panel" id="clase1">
+          <div class="dual-col">
+            <div class="flip-card" onclick="this.classList.toggle('flipped')">
+              <div class="flip-card-inner">
+                <div class="flip-sizer" aria-hidden="true">
+                  <span class="col-label">🌿 Biología — Clase 2</span>
+                  <ul>
+                    <li>Tipos de mutaciones: sustitución, inserción, deleción</li>
+                    <li>Efectos: silenciosas, sentido erróneo, sin sentido</li>
+                    <li>Ejemplos: anemia falciforme, fibrosis quística</li>
+                    <li>Variabilidad genética como motor de la evolución</li>
+                  </ul>
+                </div>
+                <div class="flip-front flip-front-bio">
+                  <div class="flip-front-emoji">🌿</div>
+                  <div class="flip-front-title">Contenidos Biología</div>
+                  <div class="flip-hint">Presioná para ver los contenidos</div>
+                </div>
+                <div class="flip-back flip-back-bio">
+                  <div class="col-label">🌿 Biología — Clase 2</div>
+                  <ul>
+                    <li>Tipos de mutaciones: sustitución, inserción, deleción</li>
+                    <li>Efectos: silenciosas, sentido erróneo, sin sentido</li>
+                    <li>Ejemplos: anemia falciforme, fibrosis quística</li>
+                    <li>Variabilidad genética como motor de la evolución</li>
+                  </ul>
+                  <div class="flip-back-hint">↩ Volver</div>
+                </div>
+              </div>
+            </div>
+            <div class="flip-card" onclick="this.classList.toggle('flipped')">
+              <div class="flip-card-inner">
+                <div class="flip-sizer" aria-hidden="true">
+                  <span class="col-label">💻 Informática — Clase 2</span>
+                  <ul>
+                    <li>Estructuras de repetición: for/while para recorrer secuencias</li>
+                    <li>Diccionarios y contadores en Python</li>
+                    <li>Modularización: definición de funciones reutilizables</li>
+                    <li>Comparación de strings carácter a carácter</li>
+                  </ul>
+                </div>
+                <div class="flip-front flip-front-info">
+                  <div class="flip-front-emoji">💻</div>
+                  <div class="flip-front-title">Contenidos Informática</div>
+                  <div class="flip-hint">Presioná para ver los contenidos</div>
+                </div>
+                <div class="flip-back flip-back-info">
+                  <div class="col-label">💻 Informática — Clase 2</div>
+                  <ul>
+                    <li>Estructuras de repetición: for/while para recorrer secuencias</li>
+                    <li>Diccionarios y contadores en Python</li>
+                    <li>Modularización: definición de funciones reutilizables</li>
+                    <li>Comparación de strings carácter a carácter</li>
+                  </ul>
+                  <div class="flip-back-hint">↩ Volver</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <h3>Secuencia didáctica — 2 horas</h3>
+          <table class="styled-table">
+            <thead><tr><th>Mód.</th><th>Tiempo</th><th>Actividad</th><th>Rol docente</th></tr></thead>
+            <tbody>
+              <tr><td class="td-mod">M1</td><td>0–10 min</td><td>Retomada: demo de algoritmos de Clase 1. Desafío: ¿qué pasa cuando la secuencia cambia?</td><td>Ambos docentes facilitan. Se muestran 2–3 soluciones de estudiantes.</td></tr>
+              <tr><td class="td-mod">M1</td><td>10–25 min</td><td>Exposición: tipos de mutaciones genéticas. Analogía: un error tipográfico en el código puede romper todo el programa.</td><td>Bio con ejemplos clínicos; Info hace el paralelo computacional.</td></tr>
+              <tr><td class="td-mod">M1</td><td>25–40 min</td><td>Bio-Detectives Parte 1: función que cuente la frecuencia de cada nucleótido.</td><td>Trabajo autónomo/parejas. Info apoya sintaxis; Bio contextualiza.</td></tr>
+              <tr><td class="td-mod">M2</td><td>0–20 min</td><td>Bio-Detectives Parte 2: comparar secuencia "sana" con "mutada" e identificar posición y tipo de cambio.</td><td>Equipos autónomos. Docentes de apoyo.</td></tr>
+              <tr><td class="td-mod">M2</td><td>20–30 min</td><td>Debate ético: Proyecto Genoma Humano. ¿Quién es dueño de tus datos genéticos?</td><td>Ambos facilitan. Se registran conclusiones del grupo.</td></tr>
+              <tr><td class="td-mod">M2</td><td>30–40 min</td><td>Presentación del mini proyecto final (Clase 3). Formación de equipos y asignación de roles.</td><td>Docentes explican consignas y resuelven dudas.</td></tr>
+            </tbody>
+          </table>
+          <div class="debate-box">
+            <div class="d-label">⚖️ Dimensión Ética — Preguntas para el debate</div>
+            <ul>
+              <li>¿Quién tiene acceso legítimo a tu secuencia genómica?</li>
+              <li>¿Puede una empresa patentar un gen humano?</li>
+              <li>¿Qué implicancias tiene saber de antemano si una persona tendrá una enfermedad genética?</li>
+              <li>¿Cómo deben protegerse los datos de salud en sistemas digitales? (Ley de Protección de Datos, Uruguay)</li>
+            </ul>
+          </div>
+          <div class="objetivo-box">
+            <div class="obj-label">Objetivos de aprendizaje</div>
+            <ul>
+              <li>Puedo identificar tipos de mutaciones y sus efectos en la proteína resultante.</li>
+              <li>Puedo escribir funciones en Python para analizar y comparar secuencias.</li>
+              <li>Puedo argumentar sobre dilemas éticos relacionados con datos genéticos.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- CLASE 3 -->
+        <div class="clase-panel" id="clase2">
+          <div class="info-box">
+            <p><strong>Desafío integrador:</strong> En equipos de 3–4 personas (con roles diferenciados), los estudiantes desarrollan un programa que simule el proceso completo de transcripción y traducción: ADN → ARNm → cadena de aminoácidos.</p>
+          </div>
+
+          <h3>Roles del equipo</h3>
+          <table class="styled-table">
+            <thead><tr><th>Analista Biológico</th><th>Programador/a</th><th>Documentador/a</th><th>Tester / Validador/a</th></tr></thead>
+            <tbody>
+              <tr>
+                <td>Verifica que la lógica respeta los procesos biológicos: complementariedad, codones, tabla genética.</td>
+                <td>Implementa en Python las funciones <code>transcribir()</code> y <code>traducir()</code>.</td>
+                <td>Escribe comentarios en el código y prepara la presentación oral del equipo.</td>
+                <td>Prueba con distintas secuencias, incluyendo mutaciones, y reporta resultados al equipo.</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h3>Estructura del programa a desarrollar</h3>
+          <div class="code-block">
+<span class="cm"># Paso 1: Transcripción  (ADN → ARNm)</span>
+<span class="ck">def</span> <span class="cf">transcribir</span>(adn):
+    <span class="cm"># Regla: A→U, T→A, C→G, G→C</span>
+    ...
+
+<span class="cm"># Paso 2: Traducción  (ARNm → aminoácidos)</span>
+<span class="ck">def</span> <span class="cf">traducir</span>(arnm):
+    tabla = {<span class="cs">"AUG"</span>: <span class="cs">"Met"</span>, <span class="cs">"UUU"</span>: <span class="cs">"Phe"</span>, <span class="cs">"UAA"</span>: <span class="cs">"STOP"</span>, ...}
+    ...
+
+<span class="cm"># Programa principal</span>
+adn = <span class="cf">input</span>(<span class="cs">"Ingresá tu secuencia de ADN: "</span>)
+          </div>
+
+          <h3>Secuencia didáctica — 2 horas</h3>
+          <table class="styled-table">
+            <thead><tr><th>Mód.</th><th>Tiempo</th><th>Actividad</th><th>Rol docente</th></tr></thead>
+            <tbody>
+              <tr><td class="td-mod">M1</td><td>0–10 min</td><td>Retomada y presentación del desafío. Los equipos revisan funciones de clases anteriores.</td><td>Introducción conjunta.</td></tr>
+              <tr><td class="td-mod">M1</td><td>10–45 min</td><td>Desarrollo del programa en equipos. Cada rol trabaja en su parte. Integración continua.</td><td>Docentes circulan apoyando la integración.</td></tr>
+              <tr><td class="td-mod">M1</td><td>45–60 min</td><td>Prueba del programa con secuencias de ejemplo. El tester reporta errores; el equipo los corrige.</td><td>Validación colaborativa.</td></tr>
+              <tr><td class="td-mod">M2</td><td>0–15 min</td><td>Preparación de la presentación: el documentador organiza, cada integrante prepara su parte.</td><td>Comunicación científica.</td></tr>
+              <tr><td class="td-mod">M2</td><td>15–50 min</td><td>Presentaciones ante la clase: cada equipo muestra su programa y explica sus decisiones de diseño.</td><td>Ambos docentes observan con rúbrica.</td></tr>
+              <tr><td class="td-mod">M2</td><td>50–60 min</td><td>Cierre: reflexión colectiva sobre aprendizajes, desafíos y el impacto real de la bioinformática.</td><td>Metacognición y síntesis.</td></tr>
+            </tbody>
+          </table>
+          <div class="objetivo-box">
+            <div class="obj-label">Objetivos de aprendizaje</div>
+            <ul>
+              <li>Puedo implementar un programa modular que simule la transcripción y traducción del ADN.</li>
+              <li>Puedo colaborar en un equipo con roles diferenciados para resolver un problema complejo.</li>
+              <li>Puedo comunicar y justificar mis decisiones de diseño computacional.</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 5. EVALUACIÓN -->
+    <div class="section-card" id="s5">
+      <div class="section-header">
+        <div class="section-icon">📋</div>
+        <div class="section-title">5. Evaluación</div>
+      </div>
+      <div class="section-body">
+        <p>La evaluación es <strong>formativa y continua</strong>. Los instrumentos valoran el razonamiento científico, la lógica computacional, el trabajo colaborativo y la reflexión ética, en coherencia con el enfoque ABP.</p>
+
+        <h3>Rúbrica — Proyecto Final</h3>
+        <div style="overflow-x:auto;">
+          <table class="rubric-table">
+            <thead>
+              <tr>
+                <th>Criterio</th>
+                <th>Excelente (4)</th>
+                <th>Satisfactorio (2–3)</th>
+                <th>En Inicio (1)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Razonamiento biológico</td>
+                <td>Explica con precisión transcripción, traducción e impacto de mutaciones.</td>
+                <td>Describe los procesos con errores menores de terminología.</td>
+                <td>Confunde los procesos o no los vincula al programa.</td>
+              </tr>
+              <tr>
+                <td>Lógica algorítmica</td>
+                <td>El programa funciona con distintas entradas, incluidas mutaciones.</td>
+                <td>Funciona en casos simples; falla en casos borde.</td>
+                <td>No compila o produce resultados incorrectos sistemáticamente.</td>
+              </tr>
+              <tr>
+                <td>Modularización</td>
+                <td>Funciones bien nombradas, comentarios claros y código organizado.</td>
+                <td>Usa funciones pero el código tiene partes sin comentar.</td>
+                <td>Código en un solo bloque, sin estructura ni comentarios.</td>
+              </tr>
+              <tr>
+                <td>Trabajo colaborativo</td>
+                <td>Todos los roles participan; la presentación refleja trabajo integrado.</td>
+                <td>La mayoría participa; alguna persona asume más trabajo.</td>
+                <td>El trabajo fue realizado por 1–2 personas del equipo.</td>
+              </tr>
+              <tr>
+                <td>Reflexión ética</td>
+                <td>Articula argumentos sólidos y originales sobre datos genéticos.</td>
+                <td>Participa con argumentos básicos y coherentes.</td>
+                <td>Participa poco o reproduce ideas sin elaboración propia.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3 style="margin-top:20px;">Instrumentos complementarios</h3>
+        <div class="activity">
+          <div class="activity-header" onclick="toggleAct(this)">
+            <div class="activity-left">
+              <div class="act-num">C1</div>
+              <div class="act-title">Clase 1</div>
+            </div>
+            <span class="pill-badge pill-ind">Individual</span>
+            <div class="act-chevron">▾</div>
+          </div>
+          <div class="accordion-body">
+            <div class="accordion-inner">
+              Entrega del algoritmo de complementariedad (pseudocódigo o código Python).
+            </div>
+          </div>
+        </div>
+        <div class="activity">
+          <div class="activity-header" onclick="toggleAct(this)">
+            <div class="activity-left">
+              <div class="act-num">C2</div>
+              <div class="act-title">Clase 2</div>
+            </div>
+            <span class="pill-badge pill-group">Grupal</span>
+            <div class="act-chevron">▾</div>
+          </div>
+          <div class="accordion-body">
+            <div class="accordion-inner">
+              Programa Bio-Detectives + participación en el debate ético.
+            </div>
+          </div>
+        </div>
+        <div class="activity">
+          <div class="activity-header" onclick="toggleAct(this)">
+            <div class="activity-left">
+              <div class="act-num">C3</div>
+              <div class="act-title">Clase 3</div>
+            </div>
+            <span class="pill-badge pill-group">Grupal</span>
+            <div class="act-chevron">▾</div>
+          </div>
+          <div class="accordion-body">
+            <div class="accordion-inner">
+              Proyecto integrador: código Python funcional + presentación oral ante la clase.
+            </div>
+          </div>
+        </div>
+        <div class="activity">
+          <div class="activity-header" onclick="toggleAct(this)">
+            <div class="activity-left">
+              <div class="act-num">⊕</div>
+              <div class="act-title">Transversal</div>
+            </div>
+            <div class="act-chevron">▾</div>
+          </div>
+          <div class="accordion-body">
+            <div class="accordion-inner">
+              Lista de cotejo de trabajo colaborativo (observación docente durante las tres clases).
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 6. ORIENTACIONES -->
+    <div class="section-card" id="s6">
+      <div class="section-header">
+        <div class="section-icon">🧭</div>
+        <div class="section-title">6. Orientaciones Pedagógicas</div>
+      </div>
+      <div class="section-body">
+
+        <div class="activity">
+          <div class="activity-header" onclick="toggleAct(this)">
+            <div class="activity-left">
+              <div class="act-num">🤝</div>
+              <div class="act-title">Co-diseño y planificación conjunta</div>
+            </div>
+            <div class="act-chevron">▾</div>
+          </div>
+          <div class="accordion-body">
+            <div class="accordion-inner">
+              <p>Se recomienda que ambos docentes se reúnan al menos una vez antes de cada clase para acordar momentos de intervención, materiales compartidos y conexiones explícitas entre contenidos.</p>
+              <p>El objetivo es que el estudiantado perciba la interdisciplinariedad como natural, no como dos clases yuxtapuestas.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="activity">
+          <div class="activity-header" onclick="toggleAct(this)">
+            <div class="activity-left">
+              <div class="act-num">🌈</div>
+              <div class="act-title">Gestión de la heterogeneidad</div>
+            </div>
+            <div class="act-chevron">▾</div>
+          </div>
+          <div class="accordion-body">
+            <div class="accordion-inner">
+              <ul style="padding-left:18px; line-height:1.8;">
+                <li>Estudiantes con experiencia previa en programación pueden actuar como tutores de pares.</li>
+                <li>Para quienes presenten dificultades con la biología, enfatizar las analogías computacionales (el ADN como archivo de texto, el ribosoma como intérprete, los genes como funciones).</li>
+                <li>Se puede ofrecer pseudocódigo o diagramas de flujo como alternativa a Python.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="activity">
+          <div class="activity-header" onclick="toggleAct(this)">
+            <div class="activity-left">
+              <div class="act-num">🔧</div>
+              <div class="act-title">Herramientas sugeridas</div>
+            </div>
+            <div class="act-chevron">▾</div>
+          </div>
+          <div class="accordion-body">
+            <div class="accordion-inner">
+              <ul style="padding-left:18px; line-height:1.8;">
+                <li><strong>Python 3</strong> con Thonny, IDLE o Google Colab (sin instalación local).</li>
+                <li><strong>Scratch</strong> como alternativa para quienes tienen menos experiencia en programación.</li>
+                <li><strong>PhET Simulations</strong> o DNALC para visualización de procesos biológicos.</li>
+                <li><strong>Padlet / Jamboard</strong> para sistematizar el debate ético en tiempo real.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="activity">
+          <div class="activity-header" onclick="toggleAct(this)">
+            <div class="activity-left">
+              <div class="act-num">⚙️</div>
+              <div class="act-title">Adaptaciones posibles</div>
+            </div>
+            <div class="act-chevron">▾</div>
+          </div>
+          <div class="accordion-body">
+            <div class="accordion-inner">
+              <ul style="padding-left:18px; line-height:1.8;">
+                <li>Extender a 4–5 clases para dar más tiempo al proyecto final.</li>
+                <li>Articular con el eje de Biodiversidad en Biología, comparando secuencias entre especies.</li>
+                <li>Para grupos avanzados: introducir marco de lectura abierto (ORF) o búsqueda de codones de inicio y stop.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 7. RECURSOS -->
+    <div class="section-card" id="s7">
+      <div class="section-header">
+        <div class="section-icon">🔗</div>
+        <div class="section-title">7. Bibliografía y Recursos Digitales</div>
+      </div>
+      <div class="section-body">
+        <h3>Para docentes</h3>
+        <div class="res-grid">
+          <div class="res-card">
+            <a href="https://www.ncbi.nlm.nih.gov" target="_blank">NCBI — National Center for Biotechnology</a>
+            <p>Base de datos de secuencias genómicas y herramientas bioinformáticas. ncbi.nlm.nih.gov</p>
+          </div>
+          <div class="res-card">
+            <a href="https://rosalind.info" target="_blank">Rosalind</a>
+            <p>Plataforma de bioinformática con ejercicios interactivos para aprender con secuencias reales.</p>
+          </div>
+          <div class="res-card">
+            <a href="https://www.dnalc.org" target="_blank">DNA Learning Center (DNALC)</a>
+            <p>Animaciones sobre ADN y síntesis proteica. Cold Spring Harbor Laboratory.</p>
+          </div>
+          <div class="res-card">
+            <a href="https://www.python.org/doc/" target="_blank">Python.org — Documentación oficial</a>
+            <p>Documentación oficial de Python, disponible parcialmente en español.</p>
+          </div>
+        </div>
+
+        <h3>Para estudiantes</h3>
+        <div class="res-grid">
+          <div class="res-card">
+            <a href="https://es.khanacademy.org" target="_blank">Khan Academy</a>
+            <p>Biología Molecular y Computación en español, con ejercicios interactivos.</p>
+          </div>
+          <div class="res-card">
+            <a href="https://code.org" target="_blank">Code.org</a>
+            <p>Introducción a la programación con bloques y Python. Interfaz amigable.</p>
+          </div>
+          <div class="res-card">
+            <a href="https://www.codecademy.com/learn/learn-python-3" target="_blank">Codecademy — Learn Python 3</a>
+            <p>Curso gratuito en nivel básico. Ejercicios paso a paso.</p>
+          </div>
+          <div class="res-card">
+            <a href="https://phet.colorado.edu/es/" target="_blank">PhET Simulations</a>
+            <p>Simulaciones interactivas de la Universidad de Colorado. Disponible en español.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- QUOTE FOOTER -->
+    <div class="quote-footer">
+      <blockquote>"La bioinformática no es solo una herramienta;<br>es una nueva forma de leer el libro de la vida."</blockquote>
+      <cite>Universidad ORT Uruguay · Facultad de Ingeniería · Taller: Código de Vida — 1° EMS</cite>
+    </div>
+
+  </main>
+</div>
+
+<script>
+  // Progress bar
+  window.addEventListener('scroll', () => {
+    const h = document.documentElement;
+    const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+    document.getElementById('pgBar').style.width = pct + '%';
+  });
+
+  // Scroll to section
+  function scrollTo(id) {
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+    event.currentTarget.classList.add('active');
+  }
+
+  // Accordion toggle
+  function toggleAct(header) {
+    const act = header.closest('.activity');
+    act.classList.toggle('open');
+  }
+
+  // Class tabs
+  function showClase(idx, pill) {
+    document.querySelectorAll('.clase-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.clase-pill').forEach(p => p.classList.remove('active'));
+    document.getElementById('clase' + idx).classList.add('active');
+    pill.classList.add('active');
+  }
+
+  // Highlight active nav on scroll
+  const sections = ['s0','s1','s2','s3','s4','s5','s6','s7'];
+  const navLinks = document.querySelectorAll('.nav-link');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach((id, i) => {
+      const el = document.getElementById(id);
+      if (el && el.getBoundingClientRect().top < 120) current = i;
+    });
+    navLinks.forEach((l, i) => {
+      l.classList.toggle('active', i === current);
+    });
+  });
+</script>
+</body>
+</html>
