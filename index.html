@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Código de Vida — Guía Docente · ORT Uruguay</title>
+<title>Código de Vida — Cuaderno del Estudiante · ORT Uruguay</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -46,6 +46,23 @@
     details { display: block; }
     details > * { display: block; }
     .accordion-body { display: block !important; max-height: none !important; }
+
+    /* Mostrar las 3 clases completas al exportar, no solo la pestaña activa */
+    .clase-timeline { display: none !important; }
+    .clase-panel {
+      display: block !important;
+      break-inside: auto;
+      page-break-inside: auto;
+    }
+    #clase1, #clase2 { break-before: page; page-break-before: always; }
+    .clase-print-title { display: block !important; }
+
+    /* Evitar que tarjetas y cajas se corten a la mitad */
+    .flip-card, .resultado-box, .debate-box, .objetivo-box,
+    .write-lines, .reto-box, .producto-box, .docentes-box {
+      break-inside: avoid; page-break-inside: avoid;
+    }
+    .flip-back-hint, .act-chevron { display: none !important; }
   }
 
   /* ── LAYOUT ─────────────────────────────────── */
@@ -137,6 +154,8 @@
     display: flex; align-items: center; justify-content: center; gap: 8px;
     transition: background .15s;
     font-family: 'Inter', sans-serif;
+    text-decoration: none;
+    box-sizing: border-box;
   }
   .btn-print:hover { background: #333; }
 
@@ -530,6 +549,7 @@
 
   .clase-panel { display: none; }
   .clase-panel.active { display: block; }
+  .clase-print-title { display: none; }
 
   /* ── RESULTADO BOX ────────────────────────────── */
   .resultado-box {
@@ -577,6 +597,70 @@
   .code-block .ck { color: #CBA6F7; }
   .code-block .cf { color: #89B4FA; }
   .code-block .cs { color: #A6E3A1; }
+
+  /* ── REPORT / PRODUCTO BOX ────────────────────── */
+  .reto-box {
+    border-left: 3px solid var(--coral);
+    background: var(--white);
+    border: 1px solid var(--rule);
+    padding: 16px 20px;
+    border-radius: 0 10px 10px 0;
+    margin-bottom: 16px;
+  }
+  .reto-box .rb-label {
+    display: flex; align-items: center; gap: 8px;
+    font-family: 'Poppins', system-ui, sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--coral);
+    margin-bottom: 10px;
+  }
+  .producto-box {
+    background: var(--coral-lt);
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin-bottom: 0;
+  }
+  .producto-box .rb-label { color: var(--coral); }
+
+  /* ── DOCENTES A CARGO ─────────────────────────── */
+  .docentes-box {
+    background: var(--page);
+    border: 1px dashed var(--rule);
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin-top: 20px;
+  }
+  .docentes-box .obj-label {
+    font-size: 10px; font-weight: 700; letter-spacing: .02em;
+    color: var(--muted); margin-bottom: 10px;
+  }
+  .docentes-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .fill-field { margin-bottom: 4px; }
+  .fill-field .fill-label { font-size: 12px; font-weight: 600; color: var(--muted); margin-bottom: 4px; }
+  .fill-line { border: none; border-bottom: 1px solid var(--rule); height: 22px; width: 100%; }
+
+  /* ── EQUIPO / PORTADA FIELDS ──────────────────── */
+  .equipo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .equipo-grid .fill-label { font-size: 12px; font-weight: 700; color: var(--ink); margin-bottom: 8px; }
+  .equipo-grid .fill-line { margin-bottom: 12px; }
+
+  /* ── WRITE-IN LINES (para completar) ──────────── */
+  .write-lines { margin-top: 14px; }
+  .write-lines .wl-label {
+    font-size: 11px; font-weight: 700; letter-spacing: .02em;
+    color: var(--muted); margin-bottom: 8px;
+  }
+  .write-lines .line {
+    border-bottom: 1px solid var(--rule);
+    height: 24px;
+  }
+  @media print {
+    .write-lines .line { break-inside: avoid; }
+  }
+
+  /* ── ACTIVITY BADGE ROW ───────────────────────── */
+  .badge-row { display: flex; gap: 8px; margin-bottom: 16px; }
 
   /* ── RESOURCES GRID ───────────────────────────── */
   .res-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px; }
@@ -686,31 +770,25 @@
         <span class="nav-num">·</span> Presentación
       </button>
       <button class="nav-link" onclick="scrollTo('s1')">
-        <span class="nav-num">1</span> Fundamentación
+        <span class="nav-num">1</span> El proyecto
       </button>
       <button class="nav-link" onclick="scrollTo('s2')">
-        <span class="nav-num">2</span> Objetivos
+        <span class="nav-num">2</span> Lo que vas a aprender
       </button>
       <button class="nav-link" onclick="scrollTo('s3')">
-        <span class="nav-num">3</span> Marco teórico
+        <span class="nav-num">3</span> Conceptos clave
       </button>
       <button class="nav-link" onclick="scrollTo('s4')">
-        <span class="nav-num">4</span> Clases
+        <span class="nav-num">4</span> Manos a la obra
       </button>
       <button class="nav-link" onclick="scrollTo('s5')">
-        <span class="nav-num">5</span> Evaluación
-      </button>
-      <button class="nav-link" onclick="scrollTo('s6')">
-        <span class="nav-num">6</span> Orientaciones
-      </button>
-      <button class="nav-link" onclick="scrollTo('s7')">
-        <span class="nav-num">7</span> Recursos
+        <span class="nav-num">5</span> Recursos
       </button>
     </div>
     <div class="nav-print">
-      <button class="btn-print" onclick="window.print()">
+      <a class="btn-print" href="Codigo_de_Vida_Cuaderno_Estudiante.pdf" download="Codigo_de_Vida_Cuaderno_Estudiante.pdf">
         ⬇ Exportar PDF
-      </button>
+      </a>
     </div>
   </nav>
 
@@ -746,7 +824,7 @@
           <polygon points="91.59 15.85 81.39 15.85 81.39 4.2 115.27 4.2 115.27 15.85 105.02 15.85 105.02 52.05 91.59 52.05 91.59 15.85"/>
           <path d="M48.89,10.43c-4.96-4.78-11.05-7.17-18.25-7.17s-13.29,2.39-18.25,7.17c-4.96,4.78-7.45,10.68-7.45,17.7s2.48,12.93,7.45,17.7c4.96,4.78,11.05,7.17,18.25,7.17s13.29-2.39,18.25-7.17c2.11-2.04,3.78-4.28,4.99-6.72v-21.96c-1.21-2.45-2.88-4.69-4.99-6.72ZM22.39,19.78c1.45-1.44,3.2-2.46,5.08-3.02-1.12,1.27-2.06,2.7-2.77,4.25h-3.4c.33-.43.7-.84,1.09-1.23ZM20.47,22.24h3.72c-.62,1.68-.98,3.49-1.04,5.37h-4.32c.11-1.91.67-3.75,1.64-5.37ZM18.82,28.84h4.34c.08,1.92.46,3.76,1.12,5.47h-3.83c-.95-1.62-1.54-3.48-1.62-5.47ZM21.28,35.54h3.52c.74,1.57,1.72,3.01,2.88,4.27-2.58-.69-4.83-2.22-6.41-4.27ZM30.31,40.21c-.16,0-.32-.01-.48-.03-1.48-1.3-2.72-2.87-3.64-4.64h4.12v4.67ZM30.31,34.31h-4.69c-.71-1.7-1.13-3.54-1.21-5.47h5.9v5.47ZM30.31,27.61h-5.91c.06-1.89.46-3.7,1.13-5.37h4.78v5.37ZM30.31,21.01h-4.23c.89-1.77,2.09-3.35,3.54-4.67h0c.23-.02.46-.04.69-.05v4.72ZM39.51,19.78c.39.39.76.8,1.09,1.23h-3.41c-.71-1.56-1.65-2.99-2.78-4.26,1.89.55,3.63,1.58,5.09,3.02ZM31.56,16.29c.24,0,.47.02.71.05,1.45,1.32,2.65,2.9,3.54,4.67h-4.25v-4.72ZM31.56,22.24h4.8c.67,1.67,1.06,3.48,1.13,5.37h-5.93v-5.37ZM31.56,28.84h5.92c-.08,1.93-.5,3.77-1.21,5.47h-4.71v-5.47ZM32.06,40.18c-.16.01-.33.02-.5.03v-4.67h4.14c-.92,1.77-2.16,3.34-3.64,4.64ZM34.21,39.81c1.16-1.27,2.14-2.7,2.89-4.27h3.54c-1.59,2.06-3.83,3.59-6.42,4.27ZM42.4,32.31c-.25.7-.56,1.37-.94,2h-3.84c.66-1.71,1.04-3.55,1.12-5.47h4.28c-.05,1.23-.26,2.39-.62,3.47ZM38.74,27.61c-.06-1.88-.42-3.69-1.04-5.37h3.74c.6,1.02,1.05,2.12,1.33,3.26.14.68.22,1.38.25,2.11h-4.28Z"/>
         </g></svg></div>
-      <div class="hero-eyebrow">Guía Estudiantes · Taller Interdisciplinar</div>
+      <div class="hero-eyebrow">Cuaderno de Proyecto · Taller Interdisciplinar</div>
       <div class="hero-title">Código de Vida</div>
       <div class="hero-subtitle">Programando la Biología</div>
       <div class="hero-meta">
@@ -754,79 +832,92 @@
         <span class="hero-chip">💻 Informática</span>
         <span class="hero-chip">1° EMS</span>
         <span class="hero-chip">3 clases × 2 h</span>
-        <span class="hero-chip">ABP</span>
       </div>
     </div>
 
-    <!-- PORTADA INFO -->
+    <!-- PORTADA: DATOS DEL EQUIPO -->
     <div class="section-card" id="s_meta">
       <div class="section-body">
-        <table class="styled-table" style="margin-bottom:0">
-          <thead><tr><th>Aspecto</th><th>Detalle</th></tr></thead>
-          <tbody>
-            <tr><td><strong>Nivel educativo</strong></td><td>1° de Educación Media Superior (EMS)</td></tr>
-            <tr><td><strong>Disciplinas</strong></td><td>Biología · Ciencias de la Computación</td></tr>
-            <tr><td><strong>Duración total</strong></td><td>3 clases × 2 horas (módulos de 40 min c/u)</td></tr>
-            <tr><td><strong>Enfoque pedagógico</strong></td><td>Aprendizaje Basado en Proyectos (ABP) · Metodología de taller</td></tr>
-            <tr><td><strong>Eje Biología</strong></td><td>Identidad Biológica</td></tr>
-            <tr><td><strong>Eje Informática</strong></td><td>Algoritmia y Programación</td></tr>
-            <tr><td><strong>Lenguaje sugerido</strong></td><td>Python 3 (adaptable a pseudocódigo o Scratch)</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- 1. FUNDAMENTACIÓN -->
-    <div class="section-card" id="s1">
-      <div class="section-header">
-        <div class="section-icon">🧩</div>
-        <div class="section-title">1. Fundamentación</div>
-      </div>
-      <div class="section-body">
-        <p>La bioinformática representa uno de los campos de mayor crecimiento en la ciencia contemporánea, donde la biología molecular y las ciencias de la computación convergen para responder preguntas fundamentales sobre la vida. Este taller propone abordar esa confluencia desde un enfoque integrado, construyendo competencias científicas, computacionales y éticas de manera simultánea.</p>
-        <p>El diseño sigue el <strong>patrón en red</strong> que proponen los programas de EMS: los contenidos de ambas disciplinas no se yuxtaponen, sino que se articulan en torno a un problema auténtico, el análisis computacional de secuencias de ADN, que otorga sentido y contexto a cada aprendizaje.</p>
-        <div class="info-box">
-          <p>El estudiantado transita progresivamente desde conceptos básicos hasta la construcción de un programa funcional que simula procesos celulares reales. Este taller se enmarca en la tradición pedagógica de la Universidad ORT Uruguay, que integra la formación científica y tecnológica con una mirada ética y humanista.</p>
+        <div class="equipo-grid">
+          <div>
+            <div class="fill-field">
+              <div class="fill-label">Tu nombre y apellido:</div>
+              <div class="fill-line"></div>
+            </div>
+            <div class="fill-field">
+              <div class="fill-label">Integrantes de tu equipo:</div>
+              <div class="fill-line"></div>
+              <div class="fill-line"></div>
+              <div class="fill-line"></div>
+            </div>
+          </div>
+          <table class="styled-table" style="margin-bottom:0">
+            <tbody>
+              <tr><td><strong>Nivel</strong></td><td>1° de Educación Media Superior (EMS)</td></tr>
+              <tr><td><strong>Disciplinas</strong></td><td>Biología · Ciencias de la Computación</td></tr>
+              <tr><td><strong>Duración</strong></td><td>3 clases × 2 horas</td></tr>
+              <tr><td><strong>Metodología</strong></td><td>Aprendizaje Basado en Proyectos (ABP)</td></tr>
+              <tr><td><strong>Lenguaje</strong></td><td>Python 3 (adaptable a pseudocódigo o Scratch)</td></tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
 
-    <!-- 2. OBJETIVOS -->
+    <!-- 1. PROGRAMA DEL PROYECTO -->
+    <div class="section-card" id="s1">
+      <div class="section-header">
+        <div class="section-icon">🚀</div>
+        <div class="section-title">1. El Proyecto</div>
+      </div>
+      <div class="section-body">
+        <div class="reto-box">
+          <div class="rb-label">🎯 El desafío</div>
+          <p>Les proponemos meterse de lleno en la <strong>bioinformática</strong>: el campo donde la biología y la programación se combinan para responder preguntas sobre la vida misma.</p>
+          <p>Van a aprender a leer el ADN como si fuera un texto escrito en un lenguaje de cuatro letras — A, T, C, G — y van a programar en Python para descifrar sus mensajes: desde encontrar la cadena complementaria de una secuencia hasta traducir un gen en una proteína real.</p>
+          <p>No hace falta saber programar de antemano. Vamos a ir construyendo, clase a clase, las herramientas biológicas y computacionales que necesiten para llegar al desafío final.</p>
+        </div>
+        <div class="producto-box">
+          <div class="rb-label">🏁 Producto final</div>
+          <p>En equipos, van a desarrollar un programa en Python que simule el proceso completo de <strong>transcripción y traducción del ADN</strong> (ADN → ARNm → proteína), y lo van a presentar ante la clase explicando sus decisiones de diseño.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. METAS DE COMPRENSIÓN -->
     <div class="section-card" id="s2">
       <div class="section-header">
         <div class="section-icon">🎯</div>
-        <div class="section-title">2. Objetivos</div>
+        <div class="section-title">2. Lo que vas a aprender</div>
       </div>
       <div class="section-body">
-        <h3>Objetivo General</h3>
-        <p>Introducir la bioinformática mediante el análisis algorítmico de secuencias de ADN, para comprender la síntesis de proteínas y el impacto de las mutaciones, desarrollando competencias interdisciplinares en un entorno colaborativo.</p>
+        <p>Al terminar este proyecto vas a poder decir:</p>
 
-        <h3>Objetivos Específicos</h3>
         <div class="dual-col">
           <div class="flip-card" onclick="this.classList.toggle('flipped')">
             <div class="flip-card-inner">
               <!-- sizer mirrors back content to set card height -->
               <div class="flip-sizer" aria-hidden="true">
-                <span class="col-label">🌿 Objetivos — Biología</span>
+                <span class="col-label">🌿 Biología</span>
                 <ul>
-                  <li>Describir la estructura del ADN y la complementariedad de bases nitrogenadas.</li>
-                  <li>Explicar transcripción (ADN→ARN) y traducción (ARN→proteína).</li>
-                  <li>Identificar tipos de mutaciones y sus efectos.</li>
-                  <li>Reflexionar sobre las implicancias éticas del manejo de datos genéticos.</li>
+                  <li>Puedo describir la estructura del ADN y la complementariedad de bases nitrogenadas.</li>
+                  <li>Puedo explicar cómo se pasa de ADN a ARN (transcripción) y de ARN a proteína (traducción).</li>
+                  <li>Puedo identificar los tipos de mutaciones y sus efectos.</li>
+                  <li>Puedo reflexionar sobre las implicancias éticas del uso de datos genéticos.</li>
                 </ul>
               </div>
               <div class="flip-front flip-front-bio">
                 <div class="flip-front-emoji">🌿</div>
                 <div class="flip-front-title">Biología</div>
-                <div class="flip-hint">Presioná para ver los objetivos</div>
+                <div class="flip-hint">Presioná para ver las metas</div>
               </div>
               <div class="flip-back flip-back-bio">
-                <div class="col-label">🌿 Objetivos — Biología</div>
+                <div class="col-label">🌿 Biología</div>
                 <ul>
-                  <li>Describir la estructura del ADN y la complementariedad de bases nitrogenadas.</li>
-                  <li>Explicar transcripción (ADN→ARN) y traducción (ARN→proteína).</li>
-                  <li>Identificar tipos de mutaciones y sus efectos.</li>
-                  <li>Reflexionar sobre las implicancias éticas del manejo de datos genéticos.</li>
+                  <li>Puedo describir la estructura del ADN y la complementariedad de bases nitrogenadas.</li>
+                  <li>Puedo explicar cómo se pasa de ADN a ARN (transcripción) y de ARN a proteína (traducción).</li>
+                  <li>Puedo identificar los tipos de mutaciones y sus efectos.</li>
+                  <li>Puedo reflexionar sobre las implicancias éticas del uso de datos genéticos.</li>
                 </ul>
                 <div class="flip-back-hint">↩ Volver</div>
               </div>
@@ -835,42 +926,57 @@
           <div class="flip-card" onclick="this.classList.toggle('flipped')">
             <div class="flip-card-inner">
               <div class="flip-sizer" aria-hidden="true">
-                <span class="col-label">💻 Objetivos — Informática</span>
+                <span class="col-label">💻 Informática</span>
                 <ul>
-                  <li>Representar datos biológicos como estructuras de datos (strings, diccionarios).</li>
-                  <li>Implementar algoritmos con estructuras de selección y repetición.</li>
-                  <li>Modularizar código en funciones para resolver problemas complejos.</li>
-                  <li>Documentar y comunicar soluciones computacionales con claridad.</li>
+                  <li>Puedo representar datos biológicos con estructuras de datos (strings, diccionarios).</li>
+                  <li>Puedo escribir algoritmos usando estructuras de selección y repetición.</li>
+                  <li>Puedo organizar mi código en funciones para resolver problemas complejos.</li>
+                  <li>Puedo documentar y explicar con claridad las soluciones que programo.</li>
                 </ul>
               </div>
               <div class="flip-front flip-front-info">
                 <div class="flip-front-emoji">💻</div>
                 <div class="flip-front-title">Informática</div>
-                <div class="flip-hint">Presioná para ver los objetivos</div>
+                <div class="flip-hint">Presioná para ver las metas</div>
               </div>
               <div class="flip-back flip-back-info">
-                <div class="col-label">💻 Objetivos — Informática</div>
+                <div class="col-label">💻 Informática</div>
                 <ul>
-                  <li>Representar datos biológicos como estructuras de datos (strings, diccionarios).</li>
-                  <li>Implementar algoritmos con estructuras de selección y repetición.</li>
-                  <li>Modularizar código en funciones para resolver problemas complejos.</li>
-                  <li>Documentar y comunicar soluciones computacionales con claridad.</li>
+                  <li>Puedo representar datos biológicos con estructuras de datos (strings, diccionarios).</li>
+                  <li>Puedo escribir algoritmos usando estructuras de selección y repetición.</li>
+                  <li>Puedo organizar mi código en funciones para resolver problemas complejos.</li>
+                  <li>Puedo documentar y explicar con claridad las soluciones que programo.</li>
                 </ul>
                 <div class="flip-back-hint">↩ Volver</div>
               </div>
             </div>
           </div>
         </div>
+
+        <div class="docentes-box">
+          <div class="obj-label">👩‍🏫 DOCENTES A CARGO</div>
+          <div class="docentes-grid">
+            <div class="fill-field">
+              <div class="fill-label">Biología</div>
+              <div class="fill-line"></div>
+            </div>
+            <div class="fill-field">
+              <div class="fill-label">Informática</div>
+              <div class="fill-line"></div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
-    <!-- 3. MARCO TEÓRICO -->
+    <!-- 3. CONCEPTOS CLAVE -->
     <div class="section-card" id="s3">
       <div class="section-header">
         <div class="section-icon">📚</div>
-        <div class="section-title">3. Marco Teórico y Conceptual</div>
+        <div class="section-title">3. Conceptos que vamos a necesitar</div>
       </div>
       <div class="section-body">
+        <p>Antes de programar, repasemos las ideas centrales de cada disciplina. Volvé a esta sección cuando la necesites durante las clases.</p>
         <div class="dual-col">
           <div class="flip-card" onclick="this.classList.toggle('flipped')">
             <div class="flip-card-inner">
@@ -942,35 +1048,27 @@
           </div>
         </div>
 
-        <h3>Bibliografía Base</h3>
+        <h3>Para profundizar</h3>
         <div class="activity" style="cursor:default;">
           <div class="activity-header" onclick="toggleAct(this)" style="cursor:pointer;">
             <div class="activity-left">
               <div class="act-num">📖</div>
-              <div class="act-title">Ver referencias bibliográficas</div>
+              <div class="act-title">Ver bibliografía del curso</div>
             </div>
             <div class="act-chevron">▾</div>
           </div>
           <div class="accordion-body">
             <div class="accordion-inner">
               <table class="styled-table" style="margin-bottom:0">
-                <thead><tr><th>Referencia</th><th>Uso en el taller</th></tr></thead>
+                <thead><tr><th>Referencia</th><th>Dónde te sirve</th></tr></thead>
                 <tbody>
                   <tr>
                     <td><em>Anzalone, A. (2001). Biología. Editorial Ciencias Biológicas.</em></td>
-                    <td>Marco conceptual principal: genética molecular, ADN, transcripción, traducción. Base de contenidos de las Clases 1 y 3.</td>
+                    <td>Genética molecular, ADN, transcripción y traducción. Útil para las Clases 1 y 3.</td>
                   </tr>
                   <tr>
                     <td><em>Biraben, S. &amp; Arata, C. Biología. Editorial Santillana.</em></td>
-                    <td>Variabilidad genética, mutaciones y biotecnología. Base de contenidos de la Clase 2 y dimensión ética.</td>
-                  </tr>
-                  <tr>
-                    <td><em>Alberts, B. et al. (2022). Biología Molecular de la Célula. 7ª ed. Omega.</em></td>
-                    <td>Referencia avanzada para docentes. Profundización en síntesis proteica y código genético.</td>
-                  </tr>
-                  <tr>
-                    <td><em>Lesk, A. (2019). Introduction to Bioinformatics. 5th ed. Oxford.</em></td>
-                    <td>Referencia docente para el enfoque bioinformático del taller.</td>
+                    <td>Variabilidad genética, mutaciones y biotecnología. Útil para la Clase 2 y el debate ético.</td>
                   </tr>
                 </tbody>
               </table>
@@ -981,11 +1079,11 @@
       </div>
     </div>
 
-    <!-- 4. CLASES -->
+    <!-- 4. MANOS A LA OBRA -->
     <div class="section-card" id="s4">
       <div class="section-header">
-        <div class="section-icon">🗓</div>
-        <div class="section-title">4. Desarrollo de las Clases</div>
+        <div class="section-icon">🧪</div>
+        <div class="section-title">4. Manos a la obra</div>
       </div>
       <div class="section-body">
 
@@ -1010,6 +1108,11 @@
 
         <!-- CLASE 1 -->
         <div class="clase-panel active" id="clase0">
+          <h3 class="clase-print-title">Clase 1 — Del Nucleótido al Dato Digital</h3>
+          <div class="badge-row">
+            <span class="pill-badge pill-group">👥 Trabajo en parejas</span>
+          </div>
+          <p>Vamos a explorar la estructura del ADN y a programar nuestra primera función: una que reciba una secuencia de ADN y devuelva su cadena complementaria.</p>
           <div class="dual-col">
             <div class="flip-card" onclick="this.classList.toggle('flipped')">
               <div class="flip-card-inner">
@@ -1069,20 +1172,16 @@
             </div>
           </div>
 
-          <h3>Secuencia didáctica — 2 horas</h3>
-          <table class="styled-table">
-            <thead><tr><th>Mód.</th><th>Tiempo</th><th>Actividad</th><th>Rol docente</th></tr></thead>
-            <tbody>
-              <tr><td class="td-mod">M1</td><td>0–15 min</td><td>Motivación: pregunta disparadora <em>¿qué tienen en común un gen y un programa?</em></td><td>Ambos docentes presentan el hilo conductor.</td></tr>
-              <tr><td class="td-mod">M1</td><td>15–30 min</td><td>Exposición dialogada: estructura del ADN y complementariedad de bases. Analogía con strings en Python.</td><td>Bio explica; Info muestra la analogía en pizarra.</td></tr>
-              <tr><td class="td-mod">M1</td><td>30–40 min</td><td>Tarjetas con bases: los estudiantes construyen cadenas complementarias manualmente.</td><td>Bio facilita; Info registra la lógica en pizarra.</td></tr>
-              <tr><td class="td-mod">M2</td><td>0–15 min</td><td>Demo en vivo: variables y estructuras de selección en Python para representar una base y su complementaria.</td><td>Info lidera; Bio señala la correspondencia biológica.</td></tr>
-              <tr><td class="td-mod">M2</td><td>15–40 min</td><td>Práctica: los estudiantes crean un algoritmo que reciba una secuencia ADN y devuelva su cadena complementaria.</td><td>Trabajo en parejas. Ambos docentes circulan y apoyan.</td></tr>
-            </tbody>
-          </table>
           <div class="resultado-box">
-            <div class="r-label">Resultado esperado</div>
-            <p>Cada estudiante (o pareja) entrega un algoritmo o código que dado el string <code>"ATCGTA"</code> devuelva <code>"TAGCAT"</code>. Se valora el razonamiento sobre el proceso más que la sintaxis perfecta.</p>
+            <div class="r-label">Lo que van a entregar</div>
+            <p>Un algoritmo o código que, dado el string <code>"ATCGTA"</code>, devuelva <code>"TAGCAT"</code>. Vale más el razonamiento sobre el proceso que la sintaxis perfecta.</p>
+          </div>
+          <div class="write-lines">
+            <div class="wl-label">✏️ ANOTÁ ACÁ TU CÓDIGO O PSEUDOCÓDIGO</div>
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
           </div>
           <div class="objetivo-box">
             <div class="obj-label">Objetivos de aprendizaje</div>
@@ -1096,6 +1195,11 @@
 
         <!-- CLASE 2 -->
         <div class="clase-panel" id="clase1">
+          <h3 class="clase-print-title">Clase 2 — Buscando Patrones y Mutaciones</h3>
+          <div class="badge-row">
+            <span class="pill-badge pill-group">👥 Trabajo en equipos</span>
+          </div>
+          <p>Ahora vamos a investigar qué pasa cuando el ADN "se equivoca": los distintos tipos de mutaciones y cómo detectarlas programando. Cerramos con un debate sobre a quién le pertenecen tus datos genéticos.</p>
           <div class="dual-col">
             <div class="flip-card" onclick="this.classList.toggle('flipped')">
               <div class="flip-card-inner">
@@ -1155,18 +1259,6 @@
             </div>
           </div>
 
-          <h3>Secuencia didáctica — 2 horas</h3>
-          <table class="styled-table">
-            <thead><tr><th>Mód.</th><th>Tiempo</th><th>Actividad</th><th>Rol docente</th></tr></thead>
-            <tbody>
-              <tr><td class="td-mod">M1</td><td>0–10 min</td><td>Retomada: demo de algoritmos de Clase 1. Desafío: ¿qué pasa cuando la secuencia cambia?</td><td>Ambos docentes facilitan. Se muestran 2–3 soluciones de estudiantes.</td></tr>
-              <tr><td class="td-mod">M1</td><td>10–25 min</td><td>Exposición: tipos de mutaciones genéticas. Analogía: un error tipográfico en el código puede romper todo el programa.</td><td>Bio con ejemplos clínicos; Info hace el paralelo computacional.</td></tr>
-              <tr><td class="td-mod">M1</td><td>25–40 min</td><td>Bio-Detectives Parte 1: función que cuente la frecuencia de cada nucleótido.</td><td>Trabajo autónomo/parejas. Info apoya sintaxis; Bio contextualiza.</td></tr>
-              <tr><td class="td-mod">M2</td><td>0–20 min</td><td>Bio-Detectives Parte 2: comparar secuencia "sana" con "mutada" e identificar posición y tipo de cambio.</td><td>Equipos autónomos. Docentes de apoyo.</td></tr>
-              <tr><td class="td-mod">M2</td><td>20–30 min</td><td>Debate ético: Proyecto Genoma Humano. ¿Quién es dueño de tus datos genéticos?</td><td>Ambos facilitan. Se registran conclusiones del grupo.</td></tr>
-              <tr><td class="td-mod">M2</td><td>30–40 min</td><td>Presentación del mini proyecto final (Clase 3). Formación de equipos y asignación de roles.</td><td>Docentes explican consignas y resuelven dudas.</td></tr>
-            </tbody>
-          </table>
           <div class="debate-box">
             <div class="d-label">⚖️ Dimensión Ética — Preguntas para el debate</div>
             <ul>
@@ -1175,6 +1267,12 @@
               <li>¿Qué implicancias tiene saber de antemano si una persona tendrá una enfermedad genética?</li>
               <li>¿Cómo deben protegerse los datos de salud en sistemas digitales? (Ley de Protección de Datos, Uruguay)</li>
             </ul>
+          </div>
+          <div class="write-lines">
+            <div class="wl-label">✏️ ANOTÁ LAS CONCLUSIONES DE TU GRUPO</div>
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
           </div>
           <div class="objetivo-box">
             <div class="obj-label">Objetivos de aprendizaje</div>
@@ -1188,8 +1286,12 @@
 
         <!-- CLASE 3 -->
         <div class="clase-panel" id="clase2">
+          <h3 class="clase-print-title">Clase 3 — El Traductor de Proteínas</h3>
+          <div class="badge-row">
+            <span class="pill-badge pill-group">👥 Trabajo en equipos de 3–4</span>
+          </div>
           <div class="info-box">
-            <p><strong>Desafío integrador:</strong> En equipos de 3–4 personas (con roles diferenciados), los estudiantes desarrollan un programa que simule el proceso completo de transcripción y traducción: ADN → ARNm → cadena de aminoácidos.</p>
+            <p><strong>Desafío integrador:</strong> en equipos, con roles diferenciados, van a desarrollar un programa que simule el proceso completo de transcripción y traducción: ADN → ARNm → cadena de aminoácidos.</p>
           </div>
 
           <h3>Roles del equipo</h3>
@@ -1221,18 +1323,14 @@
 adn = <span class="cf">input</span>(<span class="cs">"Ingresá tu secuencia de ADN: "</span>)
           </div>
 
-          <h3>Secuencia didáctica — 2 horas</h3>
-          <table class="styled-table">
-            <thead><tr><th>Mód.</th><th>Tiempo</th><th>Actividad</th><th>Rol docente</th></tr></thead>
-            <tbody>
-              <tr><td class="td-mod">M1</td><td>0–10 min</td><td>Retomada y presentación del desafío. Los equipos revisan funciones de clases anteriores.</td><td>Introducción conjunta.</td></tr>
-              <tr><td class="td-mod">M1</td><td>10–45 min</td><td>Desarrollo del programa en equipos. Cada rol trabaja en su parte. Integración continua.</td><td>Docentes circulan apoyando la integración.</td></tr>
-              <tr><td class="td-mod">M1</td><td>45–60 min</td><td>Prueba del programa con secuencias de ejemplo. El tester reporta errores; el equipo los corrige.</td><td>Validación colaborativa.</td></tr>
-              <tr><td class="td-mod">M2</td><td>0–15 min</td><td>Preparación de la presentación: el documentador organiza, cada integrante prepara su parte.</td><td>Comunicación científica.</td></tr>
-              <tr><td class="td-mod">M2</td><td>15–50 min</td><td>Presentaciones ante la clase: cada equipo muestra su programa y explica sus decisiones de diseño.</td><td>Ambos docentes observan con rúbrica.</td></tr>
-              <tr><td class="td-mod">M2</td><td>50–60 min</td><td>Cierre: reflexión colectiva sobre aprendizajes, desafíos y el impacto real de la bioinformática.</td><td>Metacognición y síntesis.</td></tr>
-            </tbody>
-          </table>
+          <div class="write-lines">
+            <div class="wl-label">✏️ NOTAS DE PLANIFICACIÓN DE TU EQUIPO</div>
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+          </div>
+
           <div class="objetivo-box">
             <div class="obj-label">Objetivos de aprendizaje</div>
             <ul>
@@ -1246,238 +1344,13 @@ adn = <span class="cf">input</span>(<span class="cs">"Ingresá tu secuencia de A
       </div>
     </div>
 
-    <!-- 5. EVALUACIÓN -->
+    <!-- 5. RECURSOS -->
     <div class="section-card" id="s5">
       <div class="section-header">
-        <div class="section-icon">📋</div>
-        <div class="section-title">5. Evaluación</div>
-      </div>
-      <div class="section-body">
-        <p>La evaluación es <strong>formativa y continua</strong>. Los instrumentos valoran el razonamiento científico, la lógica computacional, el trabajo colaborativo y la reflexión ética, en coherencia con el enfoque ABP.</p>
-
-        <h3>Rúbrica — Proyecto Final</h3>
-        <div style="overflow-x:auto;">
-          <table class="rubric-table">
-            <thead>
-              <tr>
-                <th>Criterio</th>
-                <th>Excelente (4)</th>
-                <th>Satisfactorio (2–3)</th>
-                <th>En Inicio (1)</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Razonamiento biológico</td>
-                <td>Explica con precisión transcripción, traducción e impacto de mutaciones.</td>
-                <td>Describe los procesos con errores menores de terminología.</td>
-                <td>Confunde los procesos o no los vincula al programa.</td>
-              </tr>
-              <tr>
-                <td>Lógica algorítmica</td>
-                <td>El programa funciona con distintas entradas, incluidas mutaciones.</td>
-                <td>Funciona en casos simples; falla en casos borde.</td>
-                <td>No compila o produce resultados incorrectos sistemáticamente.</td>
-              </tr>
-              <tr>
-                <td>Modularización</td>
-                <td>Funciones bien nombradas, comentarios claros y código organizado.</td>
-                <td>Usa funciones pero el código tiene partes sin comentar.</td>
-                <td>Código en un solo bloque, sin estructura ni comentarios.</td>
-              </tr>
-              <tr>
-                <td>Trabajo colaborativo</td>
-                <td>Todos los roles participan; la presentación refleja trabajo integrado.</td>
-                <td>La mayoría participa; alguna persona asume más trabajo.</td>
-                <td>El trabajo fue realizado por 1–2 personas del equipo.</td>
-              </tr>
-              <tr>
-                <td>Reflexión ética</td>
-                <td>Articula argumentos sólidos y originales sobre datos genéticos.</td>
-                <td>Participa con argumentos básicos y coherentes.</td>
-                <td>Participa poco o reproduce ideas sin elaboración propia.</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <h3 style="margin-top:20px;">Instrumentos complementarios</h3>
-        <div class="activity">
-          <div class="activity-header" onclick="toggleAct(this)">
-            <div class="activity-left">
-              <div class="act-num">C1</div>
-              <div class="act-title">Clase 1</div>
-            </div>
-            <span class="pill-badge pill-ind">Individual</span>
-            <div class="act-chevron">▾</div>
-          </div>
-          <div class="accordion-body">
-            <div class="accordion-inner">
-              Entrega del algoritmo de complementariedad (pseudocódigo o código Python).
-            </div>
-          </div>
-        </div>
-        <div class="activity">
-          <div class="activity-header" onclick="toggleAct(this)">
-            <div class="activity-left">
-              <div class="act-num">C2</div>
-              <div class="act-title">Clase 2</div>
-            </div>
-            <span class="pill-badge pill-group">Grupal</span>
-            <div class="act-chevron">▾</div>
-          </div>
-          <div class="accordion-body">
-            <div class="accordion-inner">
-              Programa Bio-Detectives + participación en el debate ético.
-            </div>
-          </div>
-        </div>
-        <div class="activity">
-          <div class="activity-header" onclick="toggleAct(this)">
-            <div class="activity-left">
-              <div class="act-num">C3</div>
-              <div class="act-title">Clase 3</div>
-            </div>
-            <span class="pill-badge pill-group">Grupal</span>
-            <div class="act-chevron">▾</div>
-          </div>
-          <div class="accordion-body">
-            <div class="accordion-inner">
-              Proyecto integrador: código Python funcional + presentación oral ante la clase.
-            </div>
-          </div>
-        </div>
-        <div class="activity">
-          <div class="activity-header" onclick="toggleAct(this)">
-            <div class="activity-left">
-              <div class="act-num">⊕</div>
-              <div class="act-title">Transversal</div>
-            </div>
-            <div class="act-chevron">▾</div>
-          </div>
-          <div class="accordion-body">
-            <div class="accordion-inner">
-              Lista de cotejo de trabajo colaborativo (observación docente durante las tres clases).
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- 6. ORIENTACIONES -->
-    <div class="section-card" id="s6">
-      <div class="section-header">
-        <div class="section-icon">🧭</div>
-        <div class="section-title">6. Orientaciones Pedagógicas</div>
-      </div>
-      <div class="section-body">
-
-        <div class="activity">
-          <div class="activity-header" onclick="toggleAct(this)">
-            <div class="activity-left">
-              <div class="act-num">🤝</div>
-              <div class="act-title">Co-diseño y planificación conjunta</div>
-            </div>
-            <div class="act-chevron">▾</div>
-          </div>
-          <div class="accordion-body">
-            <div class="accordion-inner">
-              <p>Se recomienda que ambos docentes se reúnan al menos una vez antes de cada clase para acordar momentos de intervención, materiales compartidos y conexiones explícitas entre contenidos.</p>
-              <p>El objetivo es que el estudiantado perciba la interdisciplinariedad como natural, no como dos clases yuxtapuestas.</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="activity">
-          <div class="activity-header" onclick="toggleAct(this)">
-            <div class="activity-left">
-              <div class="act-num">🌈</div>
-              <div class="act-title">Gestión de la heterogeneidad</div>
-            </div>
-            <div class="act-chevron">▾</div>
-          </div>
-          <div class="accordion-body">
-            <div class="accordion-inner">
-              <ul style="padding-left:18px; line-height:1.8;">
-                <li>Estudiantes con experiencia previa en programación pueden actuar como tutores de pares.</li>
-                <li>Para quienes presenten dificultades con la biología, enfatizar las analogías computacionales (el ADN como archivo de texto, el ribosoma como intérprete, los genes como funciones).</li>
-                <li>Se puede ofrecer pseudocódigo o diagramas de flujo como alternativa a Python.</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        <div class="activity">
-          <div class="activity-header" onclick="toggleAct(this)">
-            <div class="activity-left">
-              <div class="act-num">🔧</div>
-              <div class="act-title">Herramientas sugeridas</div>
-            </div>
-            <div class="act-chevron">▾</div>
-          </div>
-          <div class="accordion-body">
-            <div class="accordion-inner">
-              <ul style="padding-left:18px; line-height:1.8;">
-                <li><strong>Python 3</strong> con Thonny, IDLE o Google Colab (sin instalación local).</li>
-                <li><strong>Scratch</strong> como alternativa para quienes tienen menos experiencia en programación.</li>
-                <li><strong>PhET Simulations</strong> o DNALC para visualización de procesos biológicos.</li>
-                <li><strong>Padlet / Jamboard</strong> para sistematizar el debate ético en tiempo real.</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        <div class="activity">
-          <div class="activity-header" onclick="toggleAct(this)">
-            <div class="activity-left">
-              <div class="act-num">⚙️</div>
-              <div class="act-title">Adaptaciones posibles</div>
-            </div>
-            <div class="act-chevron">▾</div>
-          </div>
-          <div class="accordion-body">
-            <div class="accordion-inner">
-              <ul style="padding-left:18px; line-height:1.8;">
-                <li>Extender a 4–5 clases para dar más tiempo al proyecto final.</li>
-                <li>Articular con el eje de Biodiversidad en Biología, comparando secuencias entre especies.</li>
-                <li>Para grupos avanzados: introducir marco de lectura abierto (ORF) o búsqueda de codones de inicio y stop.</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- 7. RECURSOS -->
-    <div class="section-card" id="s7">
-      <div class="section-header">
         <div class="section-icon">🔗</div>
-        <div class="section-title">7. Bibliografía y Recursos Digitales</div>
+        <div class="section-title">5. Recursos para seguir explorando</div>
       </div>
       <div class="section-body">
-        <h3>Para docentes</h3>
-        <div class="res-grid">
-          <div class="res-card">
-            <a href="https://www.ncbi.nlm.nih.gov" target="_blank">NCBI — National Center for Biotechnology</a>
-            <p>Base de datos de secuencias genómicas y herramientas bioinformáticas. ncbi.nlm.nih.gov</p>
-          </div>
-          <div class="res-card">
-            <a href="https://rosalind.info" target="_blank">Rosalind</a>
-            <p>Plataforma de bioinformática con ejercicios interactivos para aprender con secuencias reales.</p>
-          </div>
-          <div class="res-card">
-            <a href="https://www.dnalc.org" target="_blank">DNA Learning Center (DNALC)</a>
-            <p>Animaciones sobre ADN y síntesis proteica. Cold Spring Harbor Laboratory.</p>
-          </div>
-          <div class="res-card">
-            <a href="https://www.python.org/doc/" target="_blank">Python.org — Documentación oficial</a>
-            <p>Documentación oficial de Python, disponible parcialmente en español.</p>
-          </div>
-        </div>
-
-        <h3>Para estudiantes</h3>
         <div class="res-grid">
           <div class="res-card">
             <a href="https://es.khanacademy.org" target="_blank">Khan Academy</a>
@@ -1565,7 +1438,7 @@ adn = <span class="cf">input</span>(<span class="cs">"Ingresá tu secuencia de A
   }
 
   // Highlight active nav on scroll
-  const sections = ['s0','s1','s2','s3','s4','s5','s6','s7'];
+  const sections = ['s0','s1','s2','s3','s4','s5'];
   const navLinks = document.querySelectorAll('.nav-link');
   window.addEventListener('scroll', () => {
     let current = '';
